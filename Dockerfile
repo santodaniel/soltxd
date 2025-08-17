@@ -7,6 +7,9 @@ WORKDIR /app
 # Copia todos los archivos del proyecto al contenedor
 COPY . .
 
+# Da permisos de ejecución al Maven Wrapper
+RUN chmod +x mvnw
+
 # Compila el proyecto usando Maven Wrapper
 RUN ./mvnw clean install
 
