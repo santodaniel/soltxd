@@ -1,14 +1,8 @@
-# Usa una imagen base con Java 17
 FROM eclipse-temurin:17-jdk
-
-# Crea el directorio de trabajo dentro del contenedor
 WORKDIR /app
-
-# Copia el JAR compilado al contenedor
-COPY target/soltxd.jar app.jar
-
-# Expone el puerto que Render asigna dinámicamente
+COPY . .
+RUN chmod +x mvnw
+RUN ./mvnw clean install
 EXPOSE 8080
+CMD ["java", "-jar", "target/soltxd.jar"]
 
-# Ejecuta el JAR
-CMD ["java", "-jar", "app.jar"]
