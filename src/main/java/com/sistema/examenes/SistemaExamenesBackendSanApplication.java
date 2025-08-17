@@ -62,7 +62,7 @@ public class SistemaExamenesBackendSanApplication implements CommandLineRunner {
 			exception.printStackTrace();
 		}
 	*/	
-	/*	
+		
 		Usuario usuario = new Usuario();
 		
 		usuario.setNombre("admin");
@@ -86,7 +86,7 @@ public class SistemaExamenesBackendSanApplication implements CommandLineRunner {
 		
 		Usuario usuarioGuardado = usuarioService.guardarUsuario(usuario, usuarioRoles);
 		System.out.println(usuarioGuardado.getUsername()); 
-	*/	
+		
 	}
 
 }
