@@ -1,0 +1,10 @@
+se cambia el pom
+en build, se verifica el jar para que salga y no haya que camiar nombre
+se boora arriba la version
+
+n build hay una parte que es solo para que al contruir no de error como esta en la nuve
+
+
+se ajusta render.jaml
+
+se ajusta dockerfile

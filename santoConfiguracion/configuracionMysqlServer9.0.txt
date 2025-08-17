@@ -1,0 +1,134 @@
+/* ---------------------------------------------------------------------------------------------------------------------- */
+
+- Desisntalar el Xampp
+- Dejar el java 8
+- Instalar MySQL Server 9.0
+- Intalar MySQL Workbench
+
+para los usuarios y contraseñas elegir: usuario: root  contraseña: root   más adelante las cambio por otra mas fuerte
+
+Los puertos que se necesitan esten libres son: 80, 8080 y el 3306. 
+
+/* ---------------------------------------------------------------------------------------------------------------------- */
+
+Necesito si es posible copiar la carpeta nginx en C:
+
+/* ---------------------------------------------------------------------------------------------------------------------- */
+
+# Para crear la base de datos en mysql server 9.0 sistema_examenes_spring_boot manualmente
+
+
+1. Ejecutar en Mysql Workbench:
+CREATE DATABASE sistema_examenes_spring_boot CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+2. Luego ejecutar (esto es para activarla):
+USE sistema_examenes_spring_boot;
+
+/* ---------------------------------------------------------------------------------------------------------------------- */
+
+- MySQL Server 9.0
+- Intalar MySQL Workbench
+
+/* ---------------------------------------------------------------------------------------------------------------------- */
+ 
+1. Abra MySQL Workbench
+Inicia MySQL Workbench y conéctate a tu servidor MySQL con tu usuario (root y contraseña root).
+
+2. Accede a la opción de importación
+Ve a Server > Data Import.
+
+3. Selecciona el archivo SQL
+En Import from Self-Contained File, haz clic en Browse y busca tu archivo backup.sql que esta la carperta nginx
+
+4. Elige la base de datos destino
+Si la base de datos sistema_examenes_spring_boot ya existe, selecciónala en Default Target Schema.
+
+Si no existe, primero créala manualmente con:
+
+sql
+CREATE DATABASE sistema_examenes_spring_boot;
+Luego actualiza la lista de esquemas en Workbench y selecciona tu nueva base de datos.
+
+5. Inicia la importación
+Haz clic en Start Import y espera a que se cargue la base de datos.
+
+6. Verifica que la importación fue exitosa
+Ve al panel izquierdo Schemas y haz clic en Refresh para ver los cambios.
+
+7. Luego ejecutar (esto es para activarla):
+USE sistema_examenes_spring_boot; 
+
+/* ---------------------------------------------------------------------------------------------------------------------- */
+
+8. Para mostrar el listado de usuarios y los hosts desde donde pueden conectarse.
+Ejecutar:
+
+SELECT user, host FROM mysql.user;
+
+9. Para permitir accesos remotos desde cualquier IP
+Ejecutar:
+
+ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'root';
+FLUSH PRIVILEGES;
+
+10. Después, reinicia MySQL Server 9.0 para aplicar los cambios:
+Si es posible hacerlos por servicios: detener el MsqlServer9.0 y Reiniciar el servicio. De lo contrario por donde sepa hacerlo, no importa. 
+
+/* ---------------------------------------------------------------------------------------------------------------------- */
+
+11. Configurar MySQL server 9.0 para aceptar conexiones externas.Buscar el fichero my.ini Me dió trabajo encontarlo. (en mi caso C:\ProgramData\MySQL\MySQL Server 9.0\my.ini)
+Ejecutar en CMD: 
+dir C:\ /s /b | findstr my.ini
+
+Ahora modificar:
+
+En el fichero my.ini  Buscar la línea: bind-address = 127.0.0.1 y sustituir por bind-address = 0.0.0.0
+///////////////// si no aparece la línea bind-address, agregarlo.  Importante agregar bind-address donde dice mysqld....si no esta agregarlo. Como lo hice debajo: /////////////
+
+[mysqld]
+bind-address=0.0.0.0
+
+
+12. Recargar el servidor,
+Ejecutar desde el CMS ubicado en la carpeta nginx 
+nginx -s reload
+
+También me funciona haciendo doble click a nginx.exe
+
+/* ---------------------------------------------------------------------------------------------------------------------- */
+
+13. Para levantar el .jar necesito que me ejecute este comando desde el CMD ubicado en la carpeta del nginx:
+
+java -jar soltxd.jar --spring.datasource.url=jdbc:mysql://192.168.145.196:3306/sistema_examenes_spring_boot
+
+/* ---------------------------------------------------------------------------------------------------------------------- */
+
+14 . Listo. Probar la Aplicación:
+
+http://192.168.145.196
+
+http://192.168.145.196/soltxdip
+
+Usuarios demo:
+
+usuario: santod
+contraseña: 543321.asd
+
+usuario:www
+contraseña:www
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

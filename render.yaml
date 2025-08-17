@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: soltxd
+    runtime: docker
+    region: oregon
+    plan: free
+    envVars:
+      - key: DB_URL
+        value: jdbc:postgresql://dpg-d2gmten5r7bs73f85580-a.oregon-postgres.render.com/soltxddb_v7nh
+      - key: DB_USER
+        value: soltxddb_v7nh_user
+      - key: DB_PASSWORD
+        value: gFYKa4fyk9i9dFqI6KBPf4tWcKGfvBhz
+
+

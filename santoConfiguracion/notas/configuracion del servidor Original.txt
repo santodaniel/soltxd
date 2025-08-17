@@ -1,0 +1,69 @@
+server {
+    listen 80;
+    server_name tu-dominio.com;
+
+    root /usr/share/nginx/html;
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    location /api/ {
+        proxy_pass http://localhost:8080/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+
+
+
+
+
+
+
+estoy en windows 10
+¡Perfecto! En Windows 10, puedes usar NGINX para desplegar tu aplicación Angular. Aquí están los pasos adaptados para tu sistema:
+
+🔹 1. Instalar y Configurar NGINX en Windows 10
+1️⃣ Descarga NGINX desde su sitio oficial. 2️⃣ Extrae los archivos en una carpeta conveniente, por ejemplo: C:\nginx. 3️⃣ Verifica la instalación ejecutando nginx.exe desde la carpeta de instalación (C:\nginx\nginx.exe).
+
+🔹 2. Copiar Archivos de Angular a NGINX
+Después de ejecutar ng build --prod, copia los archivos generados en dist/tu-app-angular a la carpeta de NGINX:
+
+bash
+xcopy /E /I dist\tu-app-angular C:\nginx\html
+🔹 3. Configurar nginx.conf
+Abre C:\nginx\conf\nginx.conf y ajusta la configuración:
+nginx
+
+
+
+server {
+    listen 80;
+    server_name localhost;
+
+    root C:/nginx/html;
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    location /api/ {
+        proxy_pass http://localhost:8080/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+💡 Esto permite que NGINX sirva tu aplicación Angular y reenvíe solicitudes API a Spring Boot.
+
+🔹 4. Iniciar NGINX
+Ejecuta el siguiente comando en la terminal de Windows:
+
+bash
+C:\nginx\nginx.exe
+🔹 5. Acceder a tu Aplicación
+Abre el navegador y prueba http://localhost. 🚀
+
+Si tienes algún problema, dime y te ayudo a ajustarlo. ¿Quieres que revisemos algún detalle extra? 😃

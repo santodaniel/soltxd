@@ -1,0 +1,144 @@
+2. Usando MySQL Workbench
+Si estás usando MySQL Workbench, sigue estos pasos:
+
+Abre MySQL Workbench.
+
+Conéctate a tu base de datos (usa el usuario root o el que corresponda).
+
+Ve a la pestaña Query y escribe:
+
+sql
+SELECT user, host FROM mysql.user;
+Ejecuta el query con CTRL + ENTER o el botón de ejecutar (🡆).
+
+Se mostrará el listado de usuarios y los hosts desde donde pueden conectarse.
+
+Si ves que localhost es el único host permitido para tu usuario, necesitas permitir accesos remotos con este comando:
+
+sql
+ALTER USER 'tu_usuario'@'%' IDENTIFIED WITH mysql_native_password BY 'tu_contraseña';
+FLUSH PRIVILEGES;
+Después, reinicia MySQL para aplicar los cambios:
+
+bash
+sudo systemctl restart mysql  # Linux
+net stop mysql && net start mysql  # Windows
+Prueba estos pasos y dime qué resultado obtienes. 🚀
+
+/////////////////////////////////////////////////
+
+reiniciar mysql 
+
+net stop mysql && net start mysql  # Windows
+
+
+para buscar el my.ini
+C:\Users\santo>dir C:\ /s /b | findstr my.ini
+
+
+para ver los usuarios mysql
+SELECT user, host FROM mysql.user;
+
+
+recargar nginx
+nginx -s reload
+
+
+
+////////////////////////////////////////////////////////////
+
+Si quieres acceder a tu aplicación desde otra computadora en la red, necesitas cambiar localhost en spring.datasource.url por la IP del servidor donde está corriendo MySQL. Por ejemplo, si el servidor donde se ejecuta MySQL tiene la IP 192.168.1.100, debes modificar esta línea:
+
+properties
+spring.datasource.url=jdbc:mysql://192.168.1.100:3306/sistema_examenes_spring_boot
+Por qué cambiar localhost
+localhost solo permite conexiones desde la misma máquina.
+
+Si otra computadora intenta conectarse, dará error porque MySQL no estará accesible desde fuera.
+
+La IP del servidor permite que otros dispositivos en la red accedan.
+
+Otros puntos a verificar
+Asegurar que MySQL permite conexiones remotas Ejecuta en MySQL:
+
+sql
+ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'root';
+FLUSH PRIVILEGES;
+Esto permite conexiones desde cualquier IP.
+
+Configurar MySQL para aceptar conexiones externas el my.ini en mysql server puede estar en windows
+
+En my.ini (Windows) o my.cnf (Linux), cambia:
+
+ini
+bind-address = 127.0.0.1
+Por:
+
+ini
+bind-address = 0.0.0.0
+Permitir el puerto 3306 en el firewall Ejecuta en Windows:
+
+powershell
+netsh advfirewall firewall add rule name="MySQL 3306" dir=in action=allow protocol=TCP localport=3306
+Reinicia MySQL y Spring Boot
+
+powershell
+net stop mysql && net start mysql  # Reiniciar MySQL en Windows
+mvn spring-boot:run  # Reiniciar Spring Boot
+Prueba estos ajustes y dime si ahora puedes acceder remotamente. 🚀
+
+
+
+
+/*/////////////////////////////////para no tener que recompilar el backend
+
+java -jar soltxd.jar --spring.datasource.url=jdbc:mysql://192.168.1.100:3306/sistema_examenes_spring_boot
+
+
+///////////////////////////////////////////////////////////////////////////////////
+para crear la base de datos en el worbench
+CREATE DATABASE sistema_examenes_spring_boot CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+
+///////
+
+
+1. Abre MySQL Workbench
+Inicia MySQL Workbench y conéctate a tu servidor MySQL con tu usuario (root o el que uses).
+
+2. Accede a la opción de importación
+Ve a Server > Data Import.
+
+3. Selecciona el archivo SQL
+En Import from Self-Contained File, haz clic en Browse y busca tu archivo backup.sql.
+
+4. Elige la base de datos destino
+Si la base de datos sistema_examenes_spring_boot ya existe, selecciónala en Default Target Schema.
+
+Si no existe, primero créala manualmente con:
+
+sql
+CREATE DATABASE sistema_examenes_spring_boot;
+Luego actualiza la lista de esquemas en Workbench y selecciona tu nueva base de datos.
+
+5. Inicia la importación
+Haz clic en Start Import y espera a que se cargue la base de datos.
+
+6. Verifica que la importación fue exitosa
+Ve al panel izquierdo Schemas y haz clic en Refresh para ver los cambios.
+
+Ejecuta:
+
+sql
+SHOW TABLES;
+para confirmar que las tablas se han importado correctamente.
+
+
+
+/////////////////importante agregar bind donde dice mysqld....si no esta agregarlo
+
+[mysqld]
+bind-address=0.0.0.0
+
+
+
