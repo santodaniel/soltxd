@@ -8,3 +8,14 @@ n build hay una parte que es solo para que al contruir no de error como esta en 
 se ajusta render.jaml
 
 se ajusta dockerfile
+
+
+
+hay que agregar en pon tambien 
+
+<dependency>
+  <groupId>org.postgresql</groupId>
+  <artifactId>postgresql</artifactId>
+  <version>42.2.24</version> <!-- o una versión estable más reciente -->
+</dependency>
+
