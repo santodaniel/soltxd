@@ -1,6 +1,8 @@
 package com.sistema.examenes.servicios.impl;
 
 import java.awt.print.Pageable;
+import java.io.IOException;
+import java.time.LocalDate;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
@@ -9,11 +11,22 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.sistema.examenes.entidades.Categoria;
 import com.sistema.examenes.entidades.Examen;
 import com.sistema.examenes.repositorios.ExamenRepository;
 import com.sistema.examenes.servicios.ExamenService;
+
+
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Cell;
+
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 
 
 @Service
@@ -160,6 +173,66 @@ public class ExamenServiceImpl implements ExamenService {
 
 //--------------------------fin notificacion admin -----------------------------------------------------------   
 	
+    @Override
+    public void importarDesdeExcel(MultipartFile file) {
+        try (Workbook workbook = WorkbookFactory.create(file.getInputStream())) {
+            Sheet sheet = workbook.getSheetAt(0);
+
+            for (Row row : sheet) {
+                if (row.getRowNum() == 0) continue; // Saltar encabezado
+
+                String titulo = getCellValue(row.getCell(0));
+                String descripcion = getCellValue(row.getCell(1));
+                String puntosMaximos = getCellValue(row.getCell(2));
+                String numeroDePreguntas = getCellValue(row.getCell(3));
+                String fechaStr = getCellValue(row.getCell(4));
+
+                // Validaciones básicas
+                if (titulo == null || descripcion == null) {
+                    System.out.println("Fila " + row.getRowNum() + " incompleta. Saltada.");
+                    continue;
+                }
+
+                LocalDate fechaDeSolicitud = null;
+                try {
+                    fechaDeSolicitud = LocalDate.parse(fechaStr);
+                } catch (Exception e) {
+                    System.out.println("Fecha inválida en fila " + row.getRowNum());
+                }
+
+                // Crear entidad
+                Examen examen = new Examen();
+                examen.setTitulo(titulo);
+                examen.setDescripcion(descripcion);
+                examen.setPuntosMaximos(puntosMaximos != null ? puntosMaximos : "100");
+                examen.setNumeroDePreguntas(numeroDePreguntas != null ? numeroDePreguntas : "10");
+                examen.setFechaDeSolicitud(fechaDeSolicitud);
+
+                // Puedes setear usuario y categoría si tienes lógica para ello
+                // examen.setUsuario(usuario);
+                // examen.setCategoria(categoria);
+
+                examenRepository.save(examen);
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException("Error al leer el archivo Excel", e);
+        }
+    }
+
+    
+    private String getCellValue(Cell cell) {
+        if (cell == null) return null;
+        switch (cell.getCellType()) {
+            case STRING: return cell.getStringCellValue().trim();
+            case NUMERIC: return String.valueOf((int) cell.getNumericCellValue());
+            case BOOLEAN: return String.valueOf(cell.getBooleanCellValue());
+            default: return null;
+        }
+    }
+
+
+    
    
 }
 

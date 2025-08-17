@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.data.domain.Page;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.sistema.examenes.entidades.Categoria;
 import com.sistema.examenes.entidades.Examen;
@@ -56,6 +57,7 @@ List<Object[]> obtenerCantidadExamenesPorCategoriaCon_OS_Siprec();
     
     void desactivarNotificacion(Long examenId);
 
+    void importarDesdeExcel(MultipartFile file);
 
 
 

@@ -71,6 +71,30 @@
 			<artifactId>jaxb-api</artifactId>
 			<version>2.3.1</version>
 		</dependency>
+		
+		<!-- Apache POI core (para .xls) -->
+<dependency>
+    <groupId>org.apache.poi</groupId>
+    <artifactId>poi</artifactId>
+    <version>5.2.3</version>
+</dependency>
+
+<!-- Apache POI OOXML (para .xlsx y WorkbookFactory) -->
+<dependency>
+    <groupId>org.apache.poi</groupId>
+    <artifactId>poi-ooxml</artifactId>
+    <version>5.2.3</version>
+</dependency>
+
+
+
+		<!-- Apache Commons para manejo de tipos y utilidades -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-collections4</artifactId>
+			<version>4.4</version>
+		</dependency>
+
 
 		<dependency>
 			<groupId>org.postgresql</groupId>
@@ -94,14 +118,14 @@
     <finalName>soltxd</finalName>
     
     <plugins>
-        <!-- Plugin para compilar y ejecutar Spring Boot -->
+			<!-- Plugin para compilar y ejecutar Spring Boot -->
         <plugin>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-maven-plugin</artifactId>
             <version>${project.parent.version}</version>
         </plugin>
 
-        <!-- Plugin para evitar que los tests bloqueen el build -->
+			<!-- Plugin para evitar que los tests bloqueen el build -->
         <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
