@@ -6,10 +6,10 @@ services:
     plan: free
     envVars:
       - key: DB_URL
-        value: jdbc:postgresql://dpg-d2gmten5r7bs73f85580-a.oregon-postgres.render.com/soltxddb_v7nh
+        value: jdbc:postgresql://dpg-d2gnupvdiees73dngcs0-a.oregon-postgres.render.com/soltxddb_a0dn
       - key: DB_USER
-        value: soltxddb_v7nh_user
+        value: santod
       - key: DB_PASSWORD
-        value: gFYKa4fyk9i9dFqI6KBPf4tWcKGfvBhz
+        value: NuZJ7Za99pVEQnUxdEyJCbbe7KzLwWQY
 
 

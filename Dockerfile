@@ -4,17 +4,11 @@ FROM eclipse-temurin:17-jdk
 # Crea el directorio de trabajo dentro del contenedor
 WORKDIR /app
 
-# Copia todos los archivos del proyecto al contenedor
-COPY . .
+# Copia el JAR compilado al contenedor
+COPY target/soltxd.jar app.jar
 
-# Da permisos de ejecución al Maven Wrapper
-RUN chmod +x mvnw
-
-# Compila el proyecto usando Maven Wrapper
-RUN ./mvnw clean install
-
-# Expone el puerto 8080 (ajústalo si usas otro)
+# Expone el puerto que Render asigna dinámicamente
 EXPOSE 8080
 
-# Ejecuta el .jar generado
-CMD ["java", "-jar", "target/soltxd.jar"]
+# Ejecuta el JAR
+CMD ["java", "-jar", "app.jar"]
