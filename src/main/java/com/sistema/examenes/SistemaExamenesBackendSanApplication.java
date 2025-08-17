@@ -62,13 +62,13 @@ public class SistemaExamenesBackendSanApplication implements CommandLineRunner {
 			exception.printStackTrace();
 		}
 	*/	
+	/*	
+		Usuario usuario = new Usuario();
 		
-	/*	Usuario usuario = new Usuario();
-		
-		usuario.setNombre("santodgc");
+		usuario.setNombre("admin");
 		usuario.setApellido("Girandy");
 		usuario.setUsername("santodgc");
-		usuario.setPassword(bCryptPasswordEncoder.encode("543321.asd"));
+		usuario.setPassword(bCryptPasswordEncoder.encode("543321"));
 		usuario.setEmail("santos.columbie@etecsa.cu");
 		usuario.setTelefono("59888006");
 		usuario.setPerfil("foto.pnp");
